@@ -9,6 +9,7 @@ export default defineConfig({
     starlight({
       title: 'nano-ros',
       tagline: 'Deterministic ROS 2 for embedded and real-time systems',
+      generateLlmsTxt: true,
 
       head: [
         {
