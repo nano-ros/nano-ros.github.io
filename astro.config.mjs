@@ -19,8 +19,7 @@ export default defineConfig({
       ],
 
       editLink: {
-        baseUrl:
-          'https://github.com/nano-ros/nano-ros.github.io/edit/main/src/content/docs/',
+        baseUrl: 'https://github.com/nano-ros/nano-ros.github.io/edit/main/',
       },
 
       sidebar: [
