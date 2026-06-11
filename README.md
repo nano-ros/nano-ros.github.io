@@ -1,17 +1,24 @@
-# nano-ros website
+# nano-ros.github.io
 
-Documentation site for nano-ros.
+Documentation site for [nano-ros](https://github.com/nano-ros).
 
-This repository powers the GitHub Pages site at `nano-ros.github.io`.
+Live at **[nano-ros.github.io](https://nano-ros.github.io)**
 
-The site is written with Astro + Starlight and deploys automatically when code is pushed to `main`.
+Built with Astro + Starlight. Deploys automatically on push to `main`.
 
 ## What to edit
 
-- `src/content/docs/index.mdx`
-- `src/content/docs/architecture/nitrosafe.md`
-- other docs pages inside `src/content/docs/`
+- `src/content/docs/index.mdx` — homepage
+- `src/content/docs/architecture/nitrosafe.md` — main architecture page
+- `src/content/docs/architecture/*.md` — all other architecture pages
+
+## Local development
+
+```bash
+npm install
+npm run dev
+```
 
 ## Deployment
 
-Push changes to `main`, and GitHub Actions will build and deploy the site.
+Push to `main` and GitHub Actions builds and deploys to GitHub Pages automatically.
