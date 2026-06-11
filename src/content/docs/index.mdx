@@ -1,0 +1,67 @@
+---
+title: nano-ros
+description: nano-ros is a deterministic ROS 2 client for embedded and real-time systems, built for RTEMS, Zephyr, and pluggable transport backends.
+template: splash
+hero:
+  tagline: Deterministic ROS 2 for embedded and real-time systems.
+  actions:
+    - text: Read the architecture
+      link: /architecture/nitrosafe/
+      variant: primary
+    - text: Supported platforms
+      link: /architecture/platforms/
+      variant: secondary
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Built for embedded ROS 2
+
+nano-ros is a lightweight ROS 2 client stack for constrained systems.  
+It is designed for real-time execution, static or bounded memory usage, and backend-agnostic transport on embedded targets.
+
+## What nano-ros focuses on
+
+<CardGrid itemsPerRow={2}>
+  <Card title="Real-time first">
+    Built to keep the runtime path predictable and avoid heap-heavy behavior where timing matters most.
+  </Card>
+  <Card title="Embedded transport">
+    Uses a pluggable transport layer so the same architecture can fit different target hardware and system constraints.
+  </Card>
+  <Card title="Hardware interfaces">
+    Supports interface layers such as ros2_control, GPIO, CAN, EtherCAT, and other common device buses.
+  </Card>
+  <Card title="ROS 2 compatibility">
+    Targets ROS 2 Lyrical and Rolling for development and integration.
+  </Card>
+</CardGrid>
+
+## Current platform focus
+
+- RTEMS
+- Zephyr
+
+## Supported integration layers
+
+nano-ros is structured so hardware and control adapters sit above the transport layer.
+
+- ros2_control hardware interfaces
+- EtherCAT adapters
+- CAN adapters
+- GPIO and board-level I/O
+- project-specific device interfaces
+
+## Architecture at a glance
+
+1. Application nodes and control logic live at the top layer.
+2. Hardware interfaces map robot I/O into ROS 2 concepts.
+3. The runtime keeps memory behavior deterministic.
+4. The transport layer stays backend-agnostic.
+5. The target platform handles RTEMS or Zephyr integration.
+
+## Why this site exists
+
+This site explains the project clearly, shows the current architecture, and makes it easy to find the supported targets, interfaces, and integration model.
+
+Open the architecture page for the full design.
