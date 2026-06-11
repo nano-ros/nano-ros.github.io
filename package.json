@@ -12,6 +12,7 @@
   "dependencies": {
     "astro": "^6.4.5",
     "@astrojs/starlight": "^0.39.3",
-    "@astrojs/sitemap": "^3.7.3"
+    "@astrojs/sitemap": "^3.7.3",
+    "starlight-llms-txt": "latest"
   }
 }
