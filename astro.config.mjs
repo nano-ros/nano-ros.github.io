@@ -10,6 +10,16 @@ export default defineConfig({
       title: 'nano-ros',
       tagline: 'Deterministic ROS 2 for embedded and real-time systems',
 
+      head: [
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'google-site-verification',
+            content: 'YUGSHLc1KkWeyHXkeWQncuZoT7tUlhlzuPmSjUde2W8',
+          },
+        },
+      ],
+
       social: [
         {
           icon: 'github',
