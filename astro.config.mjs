@@ -9,9 +9,15 @@ export default defineConfig({
     starlight({
       title: 'nano-ros',
       tagline: 'Deterministic ROS 2 for embedded and real-time systems',
-      social: {
-        github: 'https://github.com/nano-ros',
-      },
+      social: [
+  {
+      social: [
+        {
+          icon: 'github',
+          label: 'GitHub',
+          href: 'https://github.com/nano-ros',
+        },
+],
       editLink: {
         baseUrl: 'https://github.com/nano-ros/nano-ros.github.io/edit/main/src/content/docs/',
       },
