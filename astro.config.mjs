@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
+import starlightLlmsTxt from 'starlight-llms-txt';
 
 export default defineConfig({
   site: 'https://nano-ros.github.io',
@@ -9,7 +10,8 @@ export default defineConfig({
     starlight({
       title: 'nano-ros',
       tagline: 'Deterministic ROS 2 for embedded and real-time systems',
-      generateLlmsTxt: true,
+
+      plugins: [starlightLlmsTxt()],
 
       head: [
         {
