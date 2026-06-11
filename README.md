@@ -8,9 +8,9 @@ Built with Astro + Starlight. Deploys automatically on push to `main`.
 
 ## What to edit
 
-- `src/content/docs/index.mdx` — homepage
-- `src/content/docs/architecture/nitrosafe.md` — main architecture page
-- `src/content/docs/architecture/*.md` — all other architecture pages
+- `src/content/docs/index.mdx`homepage
+- `src/content/docs/architecture/nitrosafe.md main architecture page
+- `src/content/docs/architecture/*.md`all other architecture pages
 
 ## Local development
 
