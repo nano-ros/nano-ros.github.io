@@ -15,6 +15,6 @@ The preferred model is:
 - bounded buffers in the runtime path
 - no heap required in hot paths
 - predictable message handling
-- compile-time sizing for embedded targets
+- compile time sizing for embedded targets
 
-The goal is to keep the real-time path stable and easy to reason about.
+The goal is to keep the real time path stable and easy to reason about.

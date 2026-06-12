@@ -13,6 +13,6 @@ nano-ros can expose or integrate with common robotics and embedded interfaces su
 - EtherCAT
 - CAN
 - GPIO
-- project-specific device adapters
+- project specific device adapters
 
 These interfaces sit above the transport layer and map hardware behavior into ROS 2 concepts.

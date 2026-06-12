@@ -15,4 +15,4 @@ nano-ros is organized as a small set of clean layers:
 - transport
 - platform
 
-Use the detailed pages below to explore each part.
+The detailed pages below explain how the Space first design fits together. Space transport is the default flight path, and the rest of the stack is built around that assumption.
