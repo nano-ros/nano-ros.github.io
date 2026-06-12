@@ -1,67 +1,56 @@
 ---
 title: nano-ros
-description: nano-ros is a deterministic ROS 2 client for embedded and real-time systems, built for RTEMS, Zephyr, and pluggable transport backends.
+description: nano-ros is a deterministic ROS 2 firmware runtime for embedded, space, and safety-critical systems — native ros2_control on RTEMS and Zephyr, no Linux host required.
 template: splash
 hero:
-  tagline: Deterministic ROS 2 for embedded and real-time systems.
+  tagline: From FPGA register to ROS 2 graph. On any RTOS. In any orbit.
   actions:
-    - text: Read the architecture
-      link: /architecture/nitrosafe/
+    - text: System Architecture
+      link: /architecture/overview/
       variant: primary
-    - text: Supported platforms
-      link: /architecture/platforms/
+    - text: Platform Support
+      link: /platforms/overview/
       variant: secondary
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Built for embedded ROS 2
+## What nano-ros is
 
-nano-ros is a lightweight ROS 2 client stack for constrained systems.  
-It is designed for real-time execution, static or bounded memory usage, and backend-agnostic transport on embedded targets.
+**nano-ros** is a deterministic ROS 2 client library for microcontrollers and RTOS-based systems. It implements `ros2_control` hardware interfaces natively on the RTOS — the microcontroller or FPGA becomes a first-class ROS 2 node, not a dumb serial endpoint managed by a Linux host.
 
-## What nano-ros focuses on
+**ros_HDL** is the code-generation companion. It reads a VHDL entity port map and a URDF `<ros2_control>` block and generates the C `hardware_interface` binding, unit scaling, and CCSDS APID assignment. The register map is never written twice.
 
-<CardGrid itemsPerRow={2}>
-  <Card title="Real-time first">
-    Built to keep the runtime path predictable and avoid heap-heavy behavior where timing matters most.
+## The gap nano-ros fills
+
+| Gap | Solution |
+|---|---|
+| micro-ROS has no `ros2_control` on any RTOS | nano-ros exposes `hardware_interface` natively on the RTOS |
+| Space ROS has no embedded firmware layer | nano-ros space tier on RTEMS + SpaceWire / CCSDS transport |
+| FPGA register maps maintained in HDL and C separately | ros_HDL generates the C binding with unit scaling from VHDL source |
+| No hardware guardian for FPGA radiation resilience | Independent MCU companion: boot, scrub, latch-up protection, watchdog reset |
+
+## Core properties
+
+<CardGrid>
+  <Card title="Zero allocation after init">
+    Every buffer is declared at translation-unit scope. Memory budget is fully known at link time. Execution time is mathematically bounded on every platform.
   </Card>
-  <Card title="Embedded transport">
-    Uses a pluggable transport layer so the same architecture can fit different target hardware and system constraints.
+  <Card title="Transport is a compile-time flag">
+    SpaceWire/CCSDS, zenoh, MIL-STD-1553B, or local shared SRAM — swapped with one CMake flag. Application code and hardware interfaces never change.
   </Card>
-  <Card title="Hardware interfaces">
-    Supports interface layers such as ros2_control, GPIO, CAN, EtherCAT, and other common device buses.
+  <Card title="Space-grade by default">
+    FDIR, PUS event reporting, NVRAM sequence counters, per-joint safe positions, and CDS timestamps are the baseline design — not certification retrofits.
   </Card>
-  <Card title="ROS 2 compatibility">
-    Targets ROS 2 Lyrical and Rolling for development and integration.
+  <Card title="HDL is the source of truth">
+    ros_HDL reads the VHDL port map and generates the C driver, byte-swap macros, unit scaling, and a YAMCS Mission Database fragment. Nothing is hand-coded twice.
   </Card>
 </CardGrid>
 
-## Current platform focus
+## Two deployment contexts
 
-- RTEMS
-- Zephyr
+nano-ros targets two hardware profiles that share the same architecture and firmware source.
 
-## Supported integration layers
+**Space and safety-critical** — RTEMS 6 on LEON3/4/5, NOEL-V, and PolarFire SoC. SpaceWire/CCSDS transport. GRLIB IP cores. Radiation-tolerant hardware. ESA and NASA qualification path.
 
-nano-ros is structured so hardware and control adapters sit above the transport layer.
-
-- ros2_control hardware interfaces
-- EtherCAT adapters
-- CAN adapters
-- GPIO and board-level I/O
-- project-specific device interfaces
-
-## Architecture at a glance
-
-1. Application nodes and control logic live at the top layer.
-2. Hardware interfaces map robot I/O into ROS 2 concepts.
-3. The runtime keeps memory behavior deterministic.
-4. The transport layer stays backend-agnostic.
-5. The target platform handles RTEMS or Zephyr integration.
-
-## Why this site exists
-
-This site explains the project clearly, shows the current architecture, and makes it easy to find the supported targets, interfaces, and integration model.
-
-Open the architecture page for the full design.
+**Industrial embedded** — Zephyr on NeXCon PolarFire SoC and standard Cortex-M/RISC-V MCUs. zenoh transport. GoMyRobot HELIX-7 reference deployment.
