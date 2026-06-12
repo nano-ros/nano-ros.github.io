@@ -1,15 +1,15 @@
 ---
 title: nano-ros
-description: nano-ros is a deterministic ROS 2 firmware runtime for embedded, space, and safety-critical systems — native ros2_control on RTEMS and Zephyr, no Linux host required.
+description: nano-ros is a deterministic ROS 2 firmware runtime for embedded, space, and safety critical systems.
 template: splash
 hero:
-  tagline: From FPGA register to ROS 2 graph. On any RTOS. In any orbit.
+  tagline: Space first. Deterministic. RTOS native.
   actions:
     - text: System Architecture
       link: /architecture/overview/
       variant: primary
-    - text: Platform Matrix
-      link: /architecture/platform-matrix/
+    - text: Transport Overview
+      link: /architecture/transport-overview/
       variant: secondary
 ---
 
@@ -17,40 +17,47 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 ## What nano-ros is
 
-**nano-ros** is a deterministic ROS 2 client library for microcontrollers and RTOS-based systems. It implements `ros2_control` hardware interfaces natively on the RTOS — the microcontroller or FPGA becomes a first-class ROS 2 node, not a dumb serial endpoint managed by a Linux host.
+**nano-ros** is a deterministic ROS 2 client library for microcontrollers, FPGAs, and RTOS based systems. It implements `ros2_control` hardware interfaces natively on the RTOS, so the actuator node is part of the ROS 2 graph instead of a dumb serial endpoint.
 
-**ros2_HDL** is the code-generation companion. It reads a VHDL entity port map and a URDF `<ros2_control>` block and generates the C `hardware_interface` binding, unit scaling, and CCSDS APID assignment. The register map is never written twice.
+**ros2_HDL** is the code generation companion. It reads a VHDL entity port map and a URDF `<ros2_control>` block and generates the C `hardware_interface` binding, unit scaling, and CCSDS APID assignment.
+
+## Why the architecture is space first
+
+<CardGrid>
+  <Card title="Space is the primary tier">
+    SpaceWire and CCSDS are the default transport path for flight use. The architecture keeps this path first class.
+  </Card>
+  <Card title="Zero allocation after init">
+    Static memory, bounded buffers, and compile time sizing keep the runtime predictable.
+  </Card>
+  <Card title="Hardware source of truth">
+    VHDL and URDF define the generated binding. The register map is not duplicated by hand.
+  </Card>
+  <Card title="Independent recovery">
+    A companion MCU can boot, scrub, monitor, and reset the FPGA or SoC without help from nano-ros software.
+  </Card>
+</CardGrid>
 
 ## The gap nano-ros fills
 
 | Gap | Solution |
 |---|---|
-| micro-ROS has no `ros2_control` on any RTOS | nano-ros exposes `hardware_interface` natively on the RTOS |
-| Space ROS has no embedded firmware layer | nano-ros space tier on RTEMS + SpaceWire / CCSDS transport |
-| FPGA register maps maintained in HDL and C separately | ros2_HDL generates the C binding with unit scaling from VHDL source |
-| No hardware guardian for FPGA radiation resilience | Independent MCU companion: boot, scrub, latch-up protection, watchdog reset |
-
-## Core properties
-
-<CardGrid>
-  <Card title="Zero allocation after init">
-    Every buffer is declared at translation-unit scope. Memory budget is fully known at link time. Execution time is mathematically bounded on every platform.
-  </Card>
-  <Card title="Transport is a compile-time flag">
-    SpaceWire/CCSDS, zenoh, MIL-STD-1553B, or local shared SRAM — swapped with one CMake flag. Application code and hardware interfaces never change.
-  </Card>
-  <Card title="Space-grade by default">
-    FDIR, PUS event reporting, NVRAM sequence counters, per-joint safe positions, and CDS timestamps are the baseline design — not certification retrofits.
-  </Card>
-  <Card title="HDL is the source of truth">
-    ros2_HDL reads the VHDL port map and generates the C driver, byte-swap macros, unit scaling, and a YAMCS Mission Database fragment. Nothing is hand-coded twice.
-  </Card>
-</CardGrid>
+| Embedded ROS 2 nodes need native `ros2_control` | nano-ros exposes `hardware_interface` on the RTOS |
+| Space systems need a flight transport path | nano-ros Space tier uses SpaceWire and CCSDS |
+| FPGA register maps drift between HDL and C | ros2_HDL generates the binding from VHDL and URDF |
+| Radiation hardened systems need a hardware guardian | Independent MCU companion handles boot, scrub, and reset |
 
 ## Two deployment contexts
 
-nano-ros targets two hardware profiles that share the same architecture and firmware source.
+nano-ros uses one firmware design for two deployment contexts.
 
-**Space and safety-critical** — RTEMS 6 on LEON3/4/5, NOEL-V, and PolarFire SoC. SpaceWire/CCSDS transport. GRLIB IP cores. Radiation-tolerant hardware. ESA and NASA qualification path.
+- Space and safety critical, RTEMS on LEON and PolarFire SoC, SpaceWire and CCSDS transport
+- Industrial embedded, Zephyr on supported MCUs and SoCs, zenoh transport
 
-**Industrial embedded** — Zephyr on NeXCon PolarFire SoC and standard Cortex-M/RISC-V MCUs. zenoh transport. GoMyRobot HELIX-7 reference deployment.
+## Core rules
+
+- Keep memory behavior predictable
+- Keep transport replaceable
+- Keep the interface layer separate from runtime
+- Keep the site aligned with the implementation
+- Keep Space as the first class target
