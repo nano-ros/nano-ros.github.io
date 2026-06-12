@@ -8,8 +8,8 @@ hero:
     - text: System Architecture
       link: /architecture/overview/
       variant: primary
-    - text: Platform Support
-      link: /platforms/overview/
+    - text: Platform Matrix
+      link: /architecture/platform-matrix/
       variant: secondary
 ---
 
@@ -19,7 +19,7 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 **nano-ros** is a deterministic ROS 2 client library for microcontrollers and RTOS-based systems. It implements `ros2_control` hardware interfaces natively on the RTOS — the microcontroller or FPGA becomes a first-class ROS 2 node, not a dumb serial endpoint managed by a Linux host.
 
-**ros_HDL** is the code-generation companion. It reads a VHDL entity port map and a URDF `<ros2_control>` block and generates the C `hardware_interface` binding, unit scaling, and CCSDS APID assignment. The register map is never written twice.
+**ros2_HDL** is the code-generation companion. It reads a VHDL entity port map and a URDF `<ros2_control>` block and generates the C `hardware_interface` binding, unit scaling, and CCSDS APID assignment. The register map is never written twice.
 
 ## The gap nano-ros fills
 
@@ -27,7 +27,7 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 |---|---|
 | micro-ROS has no `ros2_control` on any RTOS | nano-ros exposes `hardware_interface` natively on the RTOS |
 | Space ROS has no embedded firmware layer | nano-ros space tier on RTEMS + SpaceWire / CCSDS transport |
-| FPGA register maps maintained in HDL and C separately | ros_HDL generates the C binding with unit scaling from VHDL source |
+| FPGA register maps maintained in HDL and C separately | ros2_HDL generates the C binding with unit scaling from VHDL source |
 | No hardware guardian for FPGA radiation resilience | Independent MCU companion: boot, scrub, latch-up protection, watchdog reset |
 
 ## Core properties
@@ -43,7 +43,7 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
     FDIR, PUS event reporting, NVRAM sequence counters, per-joint safe positions, and CDS timestamps are the baseline design — not certification retrofits.
   </Card>
   <Card title="HDL is the source of truth">
-    ros_HDL reads the VHDL port map and generates the C driver, byte-swap macros, unit scaling, and a YAMCS Mission Database fragment. Nothing is hand-coded twice.
+    ros2_HDL reads the VHDL port map and generates the C driver, byte-swap macros, unit scaling, and a YAMCS Mission Database fragment. Nothing is hand-coded twice.
   </Card>
 </CardGrid>
 

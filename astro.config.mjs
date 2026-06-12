@@ -39,11 +39,21 @@ export default defineConfig({
         {
           label: 'Architecture',
           items: [
-            {
-              autogenerate: {
-                directory: 'architecture',
-              },
-            },
+            { label: 'System Overview',          slug: 'architecture/overview' },
+            { label: 'Introduction',             slug: 'architecture/introduction' },
+            { label: 'ros2_HDL',                 slug: 'architecture/ros2-hdl' },
+            { label: 'Runtime',                  slug: 'architecture/runtime' },
+            { label: 'MCU Companion',            slug: 'architecture/mcu-companion' },
+            { label: 'FDIR',                     slug: 'architecture/fdir' },
+            { label: 'Multi-Instance',           slug: 'architecture/multi-instance' },
+            { label: 'Transport Overview',       slug: 'architecture/transport-overview' },
+            { label: 'T1 / T2 / T3 — zenoh',    slug: 'architecture/zenoh' },
+            { label: 'T0 — SpaceWire / CCSDS',  slug: 'architecture/t0-spacewire' },
+            { label: 'T4 — MIL-STD-1553B',      slug: 'architecture/t4-1553b' },
+            { label: 'Ti — Local (MCU ↔ FPGA)', slug: 'architecture/ti-local' },
+            { label: 'Tx — Standalone',          slug: 'architecture/tx-standalone' },
+            { label: 'Space Targets',            slug: 'architecture/space' },
+            { label: 'Platform Matrix',          slug: 'architecture/platform-matrix' },
           ],
         },
       ],

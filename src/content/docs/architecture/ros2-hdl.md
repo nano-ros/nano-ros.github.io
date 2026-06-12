@@ -1,13 +1,13 @@
 ---
-title: ros_HDL
-description: ros_HDL — code generation from VHDL entity port maps and URDF ros2_control blocks into nano-ros hardware_interface C bindings.
+title: ros2_HDL
+description: ros2_HDL — code generation from VHDL entity port maps and URDF ros2_control blocks into nano-ros hardware_interface C bindings.
 ---
 
-## What ros_HDL is
+## What ros2_HDL is
 
-ros_HDL is a Python-based code generator. It runs as a CMake pre-build step before any C/C++ compilation. Its job is to eliminate the dual maintenance problem: without it, every FPGA peripheral requires a register map in HDL for synthesis and a separate register map in C for the driver. With ros_HDL, the VHDL entity is the single source of truth.
+ros2_HDL is a Python-based code generator. It runs as a CMake pre-build step before any C/C++ compilation. Its job is to eliminate the dual maintenance problem: without it, every FPGA peripheral requires a register map in HDL for synthesis and a separate register map in C for the driver. With ros2_HDL, the VHDL entity is the single source of truth.
 
-ros_HDL is not a runtime component. It produces no binary artifacts. It produces C source files that are compiled into the nano-ros firmware.
+ros2_HDL is not a runtime component. It produces no binary artifacts. It produces C source files that are compiled into the nano-ros firmware.
 
 ## Scope
 
@@ -17,7 +17,7 @@ Version 1.0 supports VHDL entity parsing only. VHDL and Verilog/SystemVerilog ha
 
 ## Two inputs
 
-ros_HDL takes two inputs for each peripheral:
+ros2_HDL takes two inputs for each peripheral:
 
 ### Input A — URDF `<ros2_control>` block
 
@@ -27,7 +27,7 @@ ros_HDL takes two inputs for each peripheral:
     <plugin>nano_ros/GRPWMHardwareInterface</plugin>
     <param name="grlib_device_id">0x00D</param>
 
-    <!-- Scaling — required; ros_HDL fails with an error if missing -->
+    <!-- Scaling — required; ros2_HDL fails with an error if missing -->
     <param name="enc_count.counts_per_rev">4096</param>
     <param name="enc_count.unit">rad</param>
     <param name="enc_vel.scale_factor">0.00153398</param>
@@ -77,10 +77,10 @@ The following port name patterns are automatically excluded from classification 
 ## The units/scaling layer
 
 :::danger[Missing scaling is a hard error]
-The VHDL port map carries no semantic information about units, resolution, or offset. If scaling parameters are absent for any application port, ros_HDL fails with an error. It never emits a silent raw cast. The error message names the missing parameter.
+The VHDL port map carries no semantic information about units, resolution, or offset. If scaling parameters are absent for any application port, ros2_HDL fails with an error. It never emits a silent raw cast. The error message names the missing parameter.
 :::
 
-ros_HDL applies scaling inline in the generated `read()` and `write()` functions. The byte-swap macros are applied at the register read/write boundary to satisfy the wire endianness invariant (all multi-byte fields big-endian on the wire).
+ros2_HDL applies scaling inline in the generated `read()` and `write()` functions. The byte-swap macros are applied at the register read/write boundary to satisfy the wire endianness invariant (all multi-byte fields big-endian on the wire).
 
 ```c
 /* Generated output — nanoros_grpwm_hw.c */
@@ -111,11 +111,11 @@ URDF ─────────────────────────
                                                        │
 VHDL entity (v1.0 only)                               │
   ↓                                                    │
-ros_hdl_parser.py                                     │
+ros2_hdl_parser.py                                    │
   → {port_name, direction, width}                     │
   → excludes AMBA bus signals by name pattern         │
   ↓                                                    ↓
-ros_hdl_gen.py ←──────── ros_hdl_urdf.py ─────────────┘
+ros2_hdl_gen.py ←──────── ros2_hdl_urdf.py ───────────┘
   │                         → device_id, scaling params
   │                         → safe_command values
   │                         → APID assignment
@@ -132,15 +132,15 @@ nanoros_yamcs_mdb.xml      ← YAMCS Mission Database fragment
 ## CMake integration
 
 ```cmake
-# cmake/ros_hdl_codegen.cmake
-ros_hdl_generate(
+# cmake/ros2_hdl_codegen.cmake
+ros2_hdl_generate(
   URDF   ${CMAKE_SOURCE_DIR}/robot.urdf
   HDL    ${CMAKE_SOURCE_DIR}/rtl/grpwm_peripheral.vhd
   OUTPUT ${CMAKE_BINARY_DIR}/generated
 )
 ```
 
-This runs `tools/ros_hdl/ros_hdl_gen.py` as a CMake pre-build step. No manual invocation required.
+This runs `tools/ros2_hdl/ros2_hdl_gen.py` as a CMake pre-build step. No manual invocation required.
 
 ## Software simulation backend
 
@@ -165,7 +165,7 @@ The application code, the TAL, and the FDIR layer are identical in both modes.
 
 ## YAMCS Mission Database generator
 
-`tools/ros_hdl/yamcs_mdb_gen.py` generates `nanoros_yamcs_mdb.xml` containing the PUS ST[3] housekeeping report structure definitions for every hardware_interface. YAMCS loads this at startup and decodes HK packets with no manual configuration. SID values are auto-generated from the URDF hardware_interface index by the same tool that assigns APIDs.
+`tools/ros2_hdl/yamcs_mdb_gen.py` generates `nanoros_yamcs_mdb.xml` containing the PUS ST[3] housekeeping report structure definitions for every hardware_interface. YAMCS loads this at startup and decodes HK packets with no manual configuration. SID values are auto-generated from the URDF hardware_interface index by the same tool that assigns APIDs.
 
 ## Built-in GRLIB bindings
 

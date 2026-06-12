@@ -25,7 +25,7 @@ The MCU companion is not a compute node. It is a hardware safety net that runs i
 | **SAMRH707** | ARM Cortex-M7 | STMicroelectronics | TID 300 krad, SEL immune (125 MeV) | General purpose |
 | **VA5** | ARM Cortex-M7 | Microchip | TID 300 krad, SEL immune | RT PolarFire SoC / NeXCon |
 
-The MCU firmware is a separate, minimal binary — not nano-ros. On GR716B it runs RTEMS or bare-metal C. It does not expose a ROS 2 API and is not subject to ros_HDL code generation.
+The MCU firmware is a separate, minimal binary — not nano-ros. On GR716B it runs RTEMS or bare-metal C. It does not expose a ROS 2 API and is not subject to ros2_HDL code generation.
 
 ## Local bus matrix
 

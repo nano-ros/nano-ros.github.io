@@ -24,7 +24,7 @@ The MCU companion independently detects: nano-ros heartbeat absence (10 s timeou
 ## Safe-position configuration
 
 :::danger[Zero is not a safe position]
-For a gravitationally-loaded manipulator arm, setting all joint commands to zero on fault means uncontrolled fall. ros_HDL fails with an error if `safe_command` is absent for any `CommandInterface` in the URDF. There is no default. Every joint's safe position is a deliberate mission configuration.
+For a gravitationally-loaded manipulator arm, setting all joint commands to zero on fault means uncontrolled fall. ros2_HDL fails with an error if `safe_command` is absent for any `CommandInterface` in the URDF. There is no default. Every joint's safe position is a deliberate mission configuration.
 :::
 
 Safe positions are specified in the URDF `<ros2_control>` block and generated into the firmware as a static array:
